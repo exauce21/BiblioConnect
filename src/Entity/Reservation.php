@@ -29,6 +29,12 @@ class Reservation
     #[ORM\Column]
     private ?\DateTime $created = null;
 
+    #[ORM\ManyToOne(inversedBy: 'reservations')]
+    private ?Livre $livre = null;
+
+    #[ORM\ManyToOne(inversedBy: 'reservations')]
+    private ?User $utilisateur = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +96,30 @@ class Reservation
     public function setCreated(\DateTime $created): static
     {
         $this->created = $created;
+
+        return $this;
+    }
+
+    public function getLivre(): ?Livre
+    {
+        return $this->livre;
+    }
+
+    public function setLivre(?Livre $livre): static
+    {
+        $this->livre = $livre;
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?User
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?User $utilisateur): static
+    {
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    <div class="modal modal-sheet position-static d-block p-4 py-md-5" tabindex="-1" role="dialog" id="modalSignin">
+		<div class="modal-dialog">
+			<div class="modal-content rounded-0">
+				<div class="modal-header p-5 pb-4 border-bottom-0">
+					<h1 class="fw-bold mb-0 fs-2">Se connecter</h1>
+				</div>
+				<div class="modal-body p-5 pt-0">
+                    <form method="post">
+                        <div class="form-floating mb-3">
+							<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control rounded-3" autocomplete="email" required autofocus>
+                            <label for="floatingInput">Email address</label>
+						</div>
+                        <div class="form-floating mb-3">
+                            <input type="password" name="password" id="inputPassword" class="form-control rounded-3" autocomplete="current-password" required>
+                        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+							<label for="floatingPassword">Password</label>
+						</div>
+
+                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Se connecter</button>
+                        <a class="w-100 mb-2 btn btn-lg rounded-3 btn-secondary" href="{{ path('app_user_new') }}">S'inscrire</a>
+                        
+                        {% if error %}
+                            <div class="alert alert-danger"><small class="text-body-secondary">{{ error.messageKey|trans(error.messageData, 'security') }}</small></div>
+                        {% endif %}
+
+                        {# {% if app.user %}
+                            <div class="mb-3">
+                                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ logout_path() }}">Logout</a>
+                            </div>
+                        {% endif %} #}
+                    </form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
