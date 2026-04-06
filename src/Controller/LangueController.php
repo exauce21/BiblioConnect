@@ -17,7 +17,7 @@ final class LangueController extends AbstractController
     #[Route(name: 'app_langue_index', methods: ['GET'])]
     public function index(LangueRepository $langueRepository): Response
     {
-        return $this->render('langue/index.html.twig', [
+        return $this->render('bibliothecaire/langue/index.html.twig', [
             'langues' => $langueRepository->findAll(),
         ]);
     }
@@ -36,7 +36,7 @@ final class LangueController extends AbstractController
             return $this->redirectToRoute('app_langue_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('langue/new.html.twig', [
+        return $this->render('bibliothecaire/langue/new.html.twig', [
             'langue' => $langue,
             'form' => $form,
         ]);
@@ -45,7 +45,7 @@ final class LangueController extends AbstractController
     #[Route('/{id}', name: 'app_langue_show', methods: ['GET'])]
     public function show(Langue $langue): Response
     {
-        return $this->render('langue/show.html.twig', [
+        return $this->render('bibliothecaire/langue/show.html.twig', [
             'langue' => $langue,
         ]);
     }
@@ -62,7 +62,7 @@ final class LangueController extends AbstractController
             return $this->redirectToRoute('app_langue_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('langue/edit.html.twig', [
+        return $this->render('bibliothecaire/langue/edit.html.twig', [
             'langue' => $langue,
             'form' => $form,
         ]);

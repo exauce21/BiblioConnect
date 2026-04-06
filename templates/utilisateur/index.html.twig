@@ -1,51 +1,75 @@
-{% extends 'base.html.twig' %}
+{% extends 'utilisateur/base.html.twig' %}
 
-{% block title %}Utilisateur index{% endblock %}
+{% block title %}Catalogue des Livres
+{% endblock %}
 
-{% block body %}
-    <h1>Utilisateur index</h1>
+{% block content %}
+	<div class="row">
+		<div class="col-12 mb-4">
+			<div class="card bg-light">
+				<div class="card-body text-center">
+					<h1 class="card-title">
+						<i class="fas fa-tachometer-alt text-primary"></i>
+						Tableau de bord utilisateur
+					</h1>
+					<p class="card-text">Parcourez tous les livres disponibles et accédez aux détails de chaque ouvrage.</p>
+				</div>
+			</div>
+		</div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Email</th>
-                <th>Password</th>
-                <th>Telephone</th>
-                <th>Date_naissance</th>
-                <th>Adresse</th>
-                <th>Role</th>
-                <th>Statut</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for utilisateur in utilisateurs %}
-            <tr>
-                <td>{{ utilisateur.id }}</td>
-                <td>{{ utilisateur.nom }}</td>
-                <td>{{ utilisateur.prenom }}</td>
-                <td>{{ utilisateur.email }}</td>
-                <td>{{ utilisateur.password }}</td>
-                <td>{{ utilisateur.telephone }}</td>
-                <td>{{ utilisateur.dateNaissance ? utilisateur.dateNaissance|date('Y-m-d') : '' }}</td>
-                <td>{{ utilisateur.adresse }}</td>
-                <td>{{ utilisateur.role ? utilisateur.role|json_encode : '' }}</td>
-                <td>{{ utilisateur.statut ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_utilisateur_show', {'id': utilisateur.id}) }}">show</a>
-                    <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="11">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+		<div class="col-12 mb-4">
+			<form class="row g-2 align-items-center" method="get" action="{{ path('app_search_livre') }}">
+				<div class="col-auto flex-grow-1">
+					<label for="searchQuery" class="visually-hidden">Rechercher</label>
+					<input type="search" id="searchQuery" name="q" class="form-control" placeholder="Rechercher un livre, auteur ou catégorie" value="{{ searchTerm|default('') }}">
+				</div>
+				<div class="col-auto">
+					<button type="submit" class="btn btn-primary">Rechercher</button>
+				</div>
+				{% if searchTerm is defined and searchTerm != '' %}
+					<div class="col-12 mt-2">
+						<div class="alert alert-info mb-0" role="alert">
+							Résultats pour «
+							<strong>{{ searchTerm }}</strong>
+							» :
+							{{ livres|length }}
+							livre{{ livres|length > 1 ? 's' : '' }}
+							trouvé{{ livres|length > 1 ? 's' : '' }}.
+						</div>
+					</div>
+				{% endif %}
+			</form>
+		</div>
 
-    <a href="{{ path('app_utilisateur_new') }}">Create new</a>
+		<div class="col-12">
+			<div class="row g-4">
+				{% for livre in livres %}
+					<div class="col-md-3">
+						<div class="row g-0 bg-light border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+							<div class="col p-4 d-flex flex-column position-static">
+								<strong class="d-inline-block mb-2 text-primary-emphasis">{{ livre.categorie ? livre.categorie.libelle : 'Catégorie' }}</strong>
+								<h3 class="mb-0">{{ livre.titre }}</h3>
+								<div class="mb-1 text-body-secondary">{{ livre.annee ? : 'Date inconnue' }}</div>
+								<p class="card-text mb-auto">{{ livre.auteur ? livre.auteur.nom : 'Aucun auteur' }}</p>
+								<p class="card-text mb-auto">{{ livre.description ? : 'Aucune description disponible.' }}</p>
+								<a href="{{ path('app_utilisateur_livre_show', {id: livre.id}) }}" class="icon-link gap-1 icon-link-hover stretched-link btn btn-outline-primary btn-sm mt-2">
+									Voir le livre
+									<svg class="bi" aria-hidden="true" width="16" height="16"><use xlink:href="#chevron-right"/></svg>
+								</a>
+							</div>
+							<div class="col-auto d-none d-lg-block">
+								<img src="/uploads/files/{{ livre.imageCouverture }}" class="bd-placeholder-img" width="200" height="280">
+							</div>
+						</div>
+					</div>
+				{% else %}
+					<div class="col-12">
+						<div class="alert alert-warning" role="alert">
+							Aucun livre disponible pour le moment.
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
 {% endblock %}

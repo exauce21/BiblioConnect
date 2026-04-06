@@ -17,7 +17,7 @@ final class ReservationController extends AbstractController
     #[Route(name: 'app_reservation_index', methods: ['GET'])]
     public function index(ReservationRepository $reservationRepository): Response
     {
-        return $this->render('reservation/index.html.twig', [
+        return $this->render('utilisateur/reservation/index.html.twig', [
             'reservations' => $reservationRepository->findAll(),
         ]);
     }
@@ -36,7 +36,7 @@ final class ReservationController extends AbstractController
             return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('reservation/new.html.twig', [
+        return $this->render('utilisateur/reservation/new.html.twig', [
             'reservation' => $reservation,
             'form' => $form,
         ]);
@@ -45,7 +45,7 @@ final class ReservationController extends AbstractController
     #[Route('/{id}', name: 'app_reservation_show', methods: ['GET'])]
     public function show(Reservation $reservation): Response
     {
-        return $this->render('reservation/show.html.twig', [
+        return $this->render('utilisateur/reservation/show.html.twig', [
             'reservation' => $reservation,
         ]);
     }
@@ -62,7 +62,7 @@ final class ReservationController extends AbstractController
             return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('reservation/edit.html.twig', [
+        return $this->render('utilisateur/reservation/edit.html.twig', [
             'reservation' => $reservation,
             'form' => $form,
         ]);

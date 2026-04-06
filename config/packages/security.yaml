@@ -39,17 +39,15 @@ security:
             # switch_user: true
 
     role_hierarchy:
-        ROLE_PRESTATAIRE:   [ROLE_USER]
-        ROLE_PROPRIETAIRE:  [ROLE_USER]
-        ROLE_ADMIN:         [ROLE_BIBLIOTHECAIRE]
-        ROLE_SUPER_ADMIN:   [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_USER:  [ROLE_USER]
+        ROLE_LIBRARIAN:  [ROLE_LIBRARIAN]
+        ROLE_SUPER_ADMIN:  [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
     
     # Note: Only the *first* matching rule is applied
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/bibliothecaire, roles: ROLE_ADMIN }
-        - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/bibliothecaire, roles: ROLE_BIBLIOTHECAIRE }
+        - { path: ^/bibliothecaire, roles: [ROLE_LIBRARIAN, ROLE_ADMIN] }
+        - { path: ^/utilisateur, roles: ROLE_USER }
 
 when@test:
     security:

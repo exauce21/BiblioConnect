@@ -17,7 +17,7 @@ final class AuteurController extends AbstractController
     #[Route(name: 'app_auteur_index', methods: ['GET'])]
     public function index(AuteurRepository $auteurRepository): Response
     {
-        return $this->render('auteur/index.html.twig', [
+        return $this->render('bibliothecaire/auteur/index.html.twig', [
             'auteurs' => $auteurRepository->findAll(),
         ]);
     }
@@ -36,7 +36,7 @@ final class AuteurController extends AbstractController
             return $this->redirectToRoute('app_auteur_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('auteur/new.html.twig', [
+        return $this->render('bibliothecaire/auteur/new.html.twig', [
             'auteur' => $auteur,
             'form' => $form,
         ]);
@@ -45,7 +45,7 @@ final class AuteurController extends AbstractController
     #[Route('/{id}', name: 'app_auteur_show', methods: ['GET'])]
     public function show(Auteur $auteur): Response
     {
-        return $this->render('auteur/show.html.twig', [
+        return $this->render('bibliothecaire/auteur/show.html.twig', [
             'auteur' => $auteur,
         ]);
     }
@@ -62,7 +62,7 @@ final class AuteurController extends AbstractController
             return $this->redirectToRoute('app_auteur_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('auteur/edit.html.twig', [
+        return $this->render('bibliothecaire/auteur/edit.html.twig', [
             'auteur' => $auteur,
             'form' => $form,
         ]);

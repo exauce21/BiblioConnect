@@ -16,6 +16,30 @@ class LivreRepository extends ServiceEntityRepository
         parent::__construct($registry, Livre::class);
     }
 
+    public function searchByTerm(?string $term): array
+    {
+        $qb = $this->createQueryBuilder('l')
+            ->leftJoin('l.auteur', 'a')
+            ->leftJoin('l.categorie', 'c')
+            ->addSelect('a')
+            ->addSelect('c');
+
+        if ($term !== null && $term !== '') {
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('l.titre', ':term'),
+                    $qb->expr()->like('a.nom', ':term'),
+                    $qb->expr()->like('c.libelle', ':term')
+                )
+            )
+            ->setParameter('term', '%'.$term.'%');
+        }
+
+        return $qb->orderBy('l.created', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Livre[] Returns an array of Livre objects
     //     */

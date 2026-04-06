@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class LivreType extends AbstractType
 {
@@ -18,22 +19,25 @@ class LivreType extends AbstractType
         $builder
             ->add('titre')
             ->add('description')
-            ->add('annee_publication')
-            ->add('image_couverture')
+            ->add('annee')
+            ->add('image_couverture', FileType::class, [
+                'label' => 'Image de couverture',
+                'mapped' => false,
+                'required' => false,
+            ])
             ->add('stock_total')
             ->add('stock_disponible')
-            ->add('created')
             ->add('langue', EntityType::class, [
                 'class' => Langue::class,
-                'choice_label' => 'id',
+                'choice_label' => 'titre',
             ])
             ->add('auteur', EntityType::class, [
                 'class' => Auteur::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nom',
             ])
             ->add('categorie', EntityType::class, [
                 'class' => Categorie::class,
-                'choice_label' => 'id',
+                'choice_label' => 'libelle',
             ])
         ;
     }

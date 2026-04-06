@@ -11,9 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-final class BibliothecaireController extends AbstractController
+final class AdminController extends AbstractController
 {
-    #[Route('/bibliothecaire', name: 'app_bibliothecaire')]
+    #[Route('/admin', name: 'app_admin')]
     public function index(
         UserRepository $userRepository,
         AuteurRepository $auteurRepository,
@@ -22,8 +22,8 @@ final class BibliothecaireController extends AbstractController
         ReservationRepository $reservationRepository
     ): Response
     {
-        return $this->render('bibliothecaire/index.html.twig', [
-            'controller_name' => 'BibliothecaireController',
+        return $this->render('admin/index.html.twig', [
+            'controller_name' => 'AdminController',
             'userCount' => $userRepository->count([]),
             'auteurCount' => $auteurRepository->count([]),
             'categorieCount' => $categorieRepository->count([]),

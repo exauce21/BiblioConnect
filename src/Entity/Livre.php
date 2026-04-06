@@ -22,9 +22,6 @@ class Livre
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column]
-    private ?int $annee_publication = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image_couverture = null;
 
@@ -64,6 +61,9 @@ class Livre
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'livre')]
     private Collection $commentaires;
 
+    #[ORM\Column]
+    private ?int $annee = null;
+
     public function __construct()
     {
         $this->favoris = new ArrayCollection();
@@ -96,18 +96,6 @@ class Livre
     public function setDescription(?string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getAnneePublication(): ?int
-    {
-        return $this->annee_publication;
-    }
-
-    public function setAnneePublication(?int $annee_publication): static
-    {
-        $this->annee_publication = $annee_publication;
 
         return $this;
     }
@@ -282,6 +270,18 @@ class Livre
                 $commentaire->setLivre(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAnnee(): ?int
+    {
+        return $this->annee;
+    }
+
+    public function setAnnee(int $annee): static
+    {
+        $this->annee = $annee;
 
         return $this;
     }

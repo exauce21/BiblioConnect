@@ -18,16 +18,23 @@ class SecurityController extends AbstractController
         $user = $this->getUser();
 
         if ($user && in_array('ROLE_ADMIN', $user->getRoles())) {
-            return $this->redirectToRoute('app_user_index'); // Admin dashboard
-        }elseif ($user) {
-            return $this->redirectToRoute('app_home');
+
+            return $this->redirectToRoute('app_admin');
+
+        }elseif ($user && in_array('ROLE_LIBRARIAN', $user->getRoles())) {
+
+            return $this->redirectToRoute('app_bibliothecaire');
+
+        } elseif ($user && in_array('ROLE_USER', $user->getRoles())) {
+
+            return $this->redirectToRoute('app_utilisateur');
         }
 
         //return $this->redirectToRoute('app_home');
 
         return $this->render('security/login.html.twig', [
-            'last_username' => $lastUsername, 
-            'error' => $error
+            'error' => $error,
+            'last_username' => $lastUsername
         ]);
     }
 

@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Entity\Livre;
 
 #[Route('/commentaire')]
 final class CommentaireController extends AbstractController
@@ -17,7 +18,7 @@ final class CommentaireController extends AbstractController
     #[Route(name: 'app_commentaire_index', methods: ['GET'])]
     public function index(CommentaireRepository $commentaireRepository): Response
     {
-        return $this->render('commentaire/index.html.twig', [
+        return $this->render('lecteur/commentaire/index.html.twig', [
             'commentaires' => $commentaireRepository->findAll(),
         ]);
     }
@@ -36,7 +37,7 @@ final class CommentaireController extends AbstractController
             return $this->redirectToRoute('app_commentaire_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('commentaire/new.html.twig', [
+        return $this->render('lecteur/commentaire/new.html.twig', [
             'commentaire' => $commentaire,
             'form' => $form,
         ]);
@@ -45,7 +46,7 @@ final class CommentaireController extends AbstractController
     #[Route('/{id}', name: 'app_commentaire_show', methods: ['GET'])]
     public function show(Commentaire $commentaire): Response
     {
-        return $this->render('commentaire/show.html.twig', [
+        return $this->render('lecteur/commentaire/show.html.twig', [
             'commentaire' => $commentaire,
         ]);
     }
@@ -62,7 +63,7 @@ final class CommentaireController extends AbstractController
             return $this->redirectToRoute('app_commentaire_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('commentaire/edit.html.twig', [
+        return $this->render('lecteur/commentaire/edit.html.twig', [
             'commentaire' => $commentaire,
             'form' => $form,
         ]);
@@ -77,5 +78,29 @@ final class CommentaireController extends AbstractController
         }
 
         return $this->redirectToRoute('app_commentaire_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/livre/{id}/comment', name: 'app_commentaire_add_to_livre', methods: ['POST'])]
+    public function addToLivre(Request $request, Livre $livre, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $commentaire = new Commentaire();
+        $form = $this->createForm(CommentaireType::class, $commentaire);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $commentaire->setLivre($livre);
+            $commentaire->setUtilisateur($user);
+            $entityManager->persist($commentaire);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre commentaire a été ajouté avec succès!');
+        }
+
+        return $this->redirectToRoute('app_livre_show', ['id' => $livre->getId()]);
     }
 }
