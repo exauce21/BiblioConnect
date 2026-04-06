@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <div class="modal modal-sheet position-static d-block p-4 py-md-5" tabindex="-1" role="dialog" id="modalRegister">
+        <div class="modal-dialog">
+            <div class="modal-content rounded-0">
+                <div class="modal-header p-5 pb-4 border-bottom-0">
+                    <div>
+                        <h1 class="fw-bold mb-0 fs-2">Créer un compte</h1>
+                        <p class="text-muted mb-0">Remplissez le formulaire pour vous inscrire.</p>
+                    </div>
+                </div>
+                <div class="modal-body p-5 pt-0">
+                    {{ form_start(form) }}
+                        <div class="form-floating mb-3">
+                            {{ form_widget(form.email, { 'attr': {'class': 'form-control rounded-3', 'placeholder': 'Email'} }) }}
+                            {{ form_label(form.email) }}
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            {{ form_widget(form.password, { 'attr': {'class': 'form-control rounded-3', 'placeholder': 'Mot de passe'} }) }}
+                            {{ form_label(form.password) }}
+                        </div>
+                        {% if form.password.vars.errors|length > 0 %}
+                            <div class="alert alert-danger mt-2" role="alert">
+                                {{ form_errors(form.password) }}
+                            </div>
+                        {% endif %}
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                {{ form_row(form.nom, { 'attr': {'class': 'form-control rounded-3', 'placeholder': 'Nom'} }) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(form.prenom, { 'attr': {'class': 'form-control rounded-3', 'placeholder': 'Prénom'} }) }}
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                {{ form_row(form.telephone, { 'attr': {'class': 'form-control rounded-3', 'placeholder': 'Téléphone'} }) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_row(form.date_naissance, { 'attr': {'class': 'form-control rounded-3'} }) }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_row(form.adresse, { 'attr': {'class': 'form-control rounded-3', 'placeholder': 'Adresse'} }) }}
+                        </div>
+
+                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">S'inscrire</button>
+                        <a class="w-100 mb-2 btn btn-lg rounded-3 btn-secondary" href="{{ path('app_login') }}">Se connecter</a>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

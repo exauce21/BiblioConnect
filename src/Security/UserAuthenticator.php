@@ -48,8 +48,8 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // Redirect to login success handler in LoginController
-        return new RedirectResponse($this->urlGenerator->generate('app_login_success'));
+        // Redirect to login success handler in SecurityController
+        return new RedirectResponse($this->urlGenerator->generate('app_login'));
     }
 
     protected function getLoginUrl(Request $request): string

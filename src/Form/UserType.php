@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class UserType extends AbstractType
 {
@@ -56,14 +57,37 @@ class UserType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Saisir votre adresse',
                 ]
-            ])
-        ;
+            ]);
+
+        if ($options['include_role']) {
+            $defaultRole = 'ROLE_USER';
+            $user = $builder->getData();
+            if ($user instanceof User && !empty($user->getRoles())) {
+                $defaultRole = $user->getRoles()[0];
+            }
+
+            $builder->add('role', ChoiceType::class, [
+                'label' => 'Rôle',
+                'choices' => [
+                    'Bibliothécaire' => 'ROLE_LIBRARIAN',
+                    'Administrateur' => 'ROLE_ADMIN',
+                ],
+                'expanded' => false,
+                'multiple' => false,
+                'attr' => [
+                    'class' => 'form-select',
+                ],
+                'data' => $defaultRole,
+                'mapped' => false,
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'include_role' => false,
         ]);
     }
 }

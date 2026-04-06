@@ -1,5 +1,35 @@
 {{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
-    {{ form_widget(form) }}
+    <div class="col-12">
+        {{ form_row(form.email) }}
+    </div>
+    <div class="col-12">
+        {{ form_row(form.password) }}
+        {% if form.password.vars.errors|length > 0 %}
+            <div class="alert alert-danger mt-2" role="alert">
+                {{ form_errors(form.password) }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.nom) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.prenom) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.telephone) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.date_naissance) }}
+    </div>
+    <div class="col-12">
+        {{ form_row(form.adresse) }}
+    </div>
+    {% if form.role is defined %}
+        <div class="col-12">
+            {{ form_row(form.role) }}
+        </div>
+    {% endif %}
     <div class="mt-3">
         <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
     </div>

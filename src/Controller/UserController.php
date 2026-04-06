@@ -32,7 +32,9 @@ final class UserController extends AbstractController
                         ): Response
     {
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, [
+            'include_role' => true,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -42,7 +44,9 @@ final class UserController extends AbstractController
                 $user->getPassword()
             );
             $user->setPassword($hashedPassword);
-            $user->setRoles(['ROLE_USER']);
+            
+            $selectedRole = $form->get('role')->getData();
+            $user->setRoles([$selectedRole]);
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -69,10 +73,20 @@ final class UserController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, [
+            'include_role' => true,
+        ]);
+        
+        // Set the default value for the role field based on user's current roles
+        $currentRole = !empty($user->getRoles()) ? $user->getRoles()[0] : 'ROLE_USER';
+        $form->get('role')->setData($currentRole);
+        
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $selectedRole = $form->get('role')->getData();
+            $user->setRoles([$selectedRole]);
+            
             $entityManager->flush();
 
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
