@@ -1,37 +1,46 @@
-{% extends 'base.html.twig' %}
+{% extends 'utilisateur/base.html.twig' %}
 
-{% block title %}Commentaire index{% endblock %}
+{% block title %}Commentaires{% endblock %}
 
-{% block body %}
-    <h1>Commentaire index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Contenu</th>
-                <th>Note</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for commentaire in commentaires %}
-            <tr>
-                <td>{{ commentaire.id }}</td>
-                <td>{{ commentaire.contenu }}</td>
-                <td>{{ commentaire.note }}</td>
-                <td>
-                    <a href="{{ path('app_commentaire_show', {'id': commentaire.id}) }}">show</a>
-                    <a href="{{ path('app_commentaire_edit', {'id': commentaire.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_commentaire_new') }}">Create new</a>
+{% block content %}
+    <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="h5 mb-0">Commentaires</h2>
+                <p class="text-muted small mb-0">Gestion de vos avis et notes.</p>
+            </div>
+            <a href="{{ path('app_commentaire_new') }}" class="btn btn-primary btn-sm">Ajouter un commentaire</a>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Contenu</th>
+                            <th scope="col">Note</th>
+                            <th scope="col" class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for commentaire in commentaires %}
+                        <tr>
+                            <td>{{ commentaire.id }}</td>
+                            <td>{{ commentaire.contenu }}</td>
+                            <td>{{ commentaire.note }}</td>
+                            <td class="text-end">
+                                <a href="{{ path('app_commentaire_show', {'id': commentaire.id}) }}" class="btn btn-sm btn-outline-secondary me-1">Voir</a>
+                                <a href="{{ path('app_commentaire_edit', {'id': commentaire.id}) }}" class="btn btn-sm btn-outline-primary">Modifier</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center py-4">Aucun commentaire trouvé.</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}

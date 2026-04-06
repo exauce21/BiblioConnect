@@ -1,30 +1,33 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
-{% block title %}Langue{% endblock %}
+{% block admin_title %}Langue{% endblock %}
 
-{% block body %}
-    <h1>Langue</h1>
+{% block admin_body %}
+    <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="h5 mb-0">Détails de la langue</h2>
+                <p class="text-muted small mb-0">Voir les informations et gérer la langue.</p>
+            </div>
+            <div>
+                <a href="{{ path('app_langue_edit', {'id': langue.id}) }}" class="btn btn-sm btn-primary me-2">Modifier</a>
+                {{ include('bibliothecaire/langue/_delete_form.html.twig') }}
+            </div>
+        </div>
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">ID</dt>
+                <dd class="col-sm-9">{{ langue.id }}</dd>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ langue.id }}</td>
-            </tr>
-            <tr>
-                <th>Titre</th>
-                <td>{{ langue.titre }}</td>
-            </tr>
-            <tr>
-                <th>Code</th>
-                <td>{{ langue.code }}</td>
-            </tr>
-        </tbody>
-    </table>
+                <dt class="col-sm-3">Titre</dt>
+                <dd class="col-sm-9">{{ langue.titre }}</dd>
 
-    <a href="{{ path('app_langue_index') }}">back to list</a>
-
-    <a href="{{ path('app_langue_edit', {'id': langue.id}) }}">edit</a>
-
-    {{ include('langue/_delete_form.html.twig') }}
+                <dt class="col-sm-3">Code</dt>
+                <dd class="col-sm-9"><code>{{ langue.code }}</code></dd>
+            </dl>
+        </div>
+        <div class="card-footer text-end">
+            <a href="{{ path('app_langue_index') }}" class="btn btn-secondary btn-sm">Retour à la liste</a>
+        </div>
+    </div>
 {% endblock %}

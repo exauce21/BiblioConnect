@@ -1,37 +1,48 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
-{% block title %}Auteur index{% endblock %}
+{% block admin_title %}Auteurs{% endblock %}
 
-{% block body %}
-    <h1>Auteur index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Biographie</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for auteur in auteurs %}
-            <tr>
-                <td>{{ auteur.id }}</td>
-                <td>{{ auteur.nom }}</td>
-                <td>{{ auteur.biographie }}</td>
-                <td>
-                    <a href="{{ path('app_auteur_show', {'id': auteur.id}) }}">show</a>
-                    <a href="{{ path('app_auteur_edit', {'id': auteur.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_auteur_new') }}">Create new</a>
+{% block admin_body %}
+    <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="h5 mb-0">Liste des auteurs</h2>
+                <p class="text-muted small mb-0">Gérez les auteurs de la bibliothèque.</p>
+            </div>
+            <a href="{{ path('app_auteur_new') }}" class="btn btn-primary btn-sm">
+                <i class="fas fa-plus me-1"></i> Ajouter un auteur
+            </a>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Biographie</th>
+                            <th scope="col" class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for auteur in auteurs %}
+                        <tr>
+                            <td>{{ auteur.id }}</td>
+                            <td>{{ auteur.nom }}</td>
+                            <td>{{ auteur.biographie|length > 120 ? auteur.biographie[:120] ~ '...' : auteur.biographie }}</td>
+                            <td class="text-end">
+                                <a href="{{ path('app_auteur_show', {'id': auteur.id}) }}" class="btn btn-sm btn-outline-secondary me-1">Voir</a>
+                                <a href="{{ path('app_auteur_edit', {'id': auteur.id}) }}" class="btn btn-sm btn-outline-primary">Modifier</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center py-4">Aucun auteur trouvé.</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -1,11 +1,17 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
-{% block title %}New Categorie{% endblock %}
+{% block admin_title %}Nouvelle catégorie{% endblock %}
 
-{% block body %}
-    <h1>Create new Categorie</h1>
-
-    {{ include('categorie/_form.html.twig') }}
-
-    <a href="{{ path('app_categorie_index') }}">back to list</a>
+{% block admin_body %}
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h2 class="h5 mb-0">Ajouter une catégorie</h2>
+        </div>
+        <div class="card-body">
+            {{ include('bibliothecaire/categorie/_form.html.twig') }}
+        </div>
+        <div class="card-footer text-end">
+            <a href="{{ path('app_categorie_index') }}" class="btn btn-secondary btn-sm">Retour à la liste</a>
+        </div>
+    </div>
 {% endblock %}

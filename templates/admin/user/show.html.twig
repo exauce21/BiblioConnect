@@ -1,54 +1,59 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block admin_title %}Utilisateur{% endblock %}
 
-{% block body %}
-    <h1>User</h1>
+{% block admin_body %}
+    <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="h5 mb-0">Détails de l'utilisateur</h2>
+                <p class="text-muted small mb-0">Voir les informations et gérer l'utilisateur.</p>
+            </div>
+            <div>
+                <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-sm btn-primary me-2">Modifier</a>
+                {{ include('admin/user/_delete_form.html.twig') }}
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-5">ID</dt>
+                        <dd class="col-sm-7">{{ user.id }}</dd>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ user.nom }}</td>
-            </tr>
-            <tr>
-                <th>Prenom</th>
-                <td>{{ user.prenom }}</td>
-            </tr>
-            <tr>
-                <th>Telephone</th>
-                <td>{{ user.telephone }}</td>
-            </tr>
-            <tr>
-                <th>Date_naissance</th>
-                <td>{{ user.dateNaissance ? user.dateNaissance|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Adresse</th>
-                <td>{{ user.adresse }}</td>
-            </tr>
-        </tbody>
-    </table>
+                        <dt class="col-sm-5">Email</dt>
+                        <dd class="col-sm-7">{{ user.email }}</dd>
 
-    <a href="{{ path('app_user_index') }}">back to list</a>
+                        <dt class="col-sm-5">Rôles</dt>
+                        <dd class="col-sm-7">
+                            {% for role in user.roles %}
+                                <span class="badge bg-secondary me-1">{{ role }}</span>
+                            {% endfor %}
+                        </dd>
 
-    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                        <dt class="col-sm-5">Nom</dt>
+                        <dd class="col-sm-7">{{ user.nom }}</dd>
 
-    {{ include('admin/user/_delete_form.html.twig') }}
+                        <dt class="col-sm-5">Prénom</dt>
+                        <dd class="col-sm-7">{{ user.prenom }}</dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-5">Téléphone</dt>
+                        <dd class="col-sm-7">{{ user.telephone ?: 'Non spécifié' }}</dd>
+
+                        <dt class="col-sm-5">Date de naissance</dt>
+                        <dd class="col-sm-7">{{ user.dateNaissance ? user.dateNaissance|date('d/m/Y') : 'Non spécifiée' }}</dd>
+
+                        <dt class="col-sm-5">Adresse</dt>
+                        <dd class="col-sm-7">{{ user.adresse ?: 'Non spécifiée' }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-end">
+            <a href="{{ path('app_user_index') }}" class="btn btn-secondary btn-sm">Retour à la liste</a>
+        </div>
+    </div>
 {% endblock %}

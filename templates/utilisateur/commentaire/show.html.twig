@@ -1,30 +1,30 @@
-{% extends 'base.html.twig' %}
+{% extends 'utilisateur/base.html.twig' %}
 
 {% block title %}Commentaire{% endblock %}
 
-{% block body %}
-    <h1>Commentaire</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ commentaire.id }}</td>
-            </tr>
-            <tr>
-                <th>Contenu</th>
-                <td>{{ commentaire.contenu }}</td>
-            </tr>
-            <tr>
-                <th>Note</th>
-                <td>{{ commentaire.note }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_commentaire_index') }}">back to list</a>
-
-    <a href="{{ path('app_commentaire_edit', {'id': commentaire.id}) }}">edit</a>
-
-    {{ include('commentaire/_delete_form.html.twig') }}
+{% block content %}
+    <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="h5 mb-0">Détail du commentaire</h2>
+            </div>
+            <div>
+                <a href="{{ path('app_commentaire_edit', {'id': commentaire.id}) }}" class="btn btn-sm btn-primary me-2">Modifier</a>
+                {{ include('commentaire/_delete_form.html.twig') }}
+            </div>
+        </div>
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">ID</dt>
+                <dd class="col-sm-9">{{ commentaire.id }}</dd>
+                <dt class="col-sm-3">Contenu</dt>
+                <dd class="col-sm-9">{{ commentaire.contenu }}</dd>
+                <dt class="col-sm-3">Note</dt>
+                <dd class="col-sm-9">{{ commentaire.note }}</dd>
+            </dl>
+        </div>
+        <div class="card-footer text-end">
+            <a href="{{ path('app_commentaire_index') }}" class="btn btn-secondary btn-sm">Retour à la liste</a>
+        </div>
+    </div>
 {% endblock %}

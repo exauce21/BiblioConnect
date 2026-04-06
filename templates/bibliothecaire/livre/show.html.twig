@@ -1,50 +1,77 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
-{% block title %}Livre{% endblock %}
+{% block admin_title %}Livre{% endblock %}
 
-{% block body %}
-    <h1>Livre</h1>
+{% block admin_body %}
+    <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="h5 mb-0">Détails du livre</h2>
+                <p class="text-muted small mb-0">Voir les informations et gérer le livre.</p>
+            </div>
+            <div>
+                <a href="{{ path('app_livre_edit', {'id': livre.id}) }}" class="btn btn-sm btn-primary me-2">Modifier</a>
+                {{ include('bibliothecaire/livre/_delete_form.html.twig') }}
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    {% if livre.imageCouverture %}
+                        <img src="/uploads/files/{{ livre.imageCouverture }}" class="img-fluid rounded shadow-sm" alt="Image de couverture de {{ livre.titre }}">
+                    {% else %}
+                        <div class="bg-light d-flex align-items-center justify-content-center rounded shadow-sm" style="height: 200px;">
+                            <i class="fas fa-book fa-3x text-muted"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-8">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">ID</dt>
+                        <dd class="col-sm-8">{{ livre.id }}</dd>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ livre.id }}</td>
-            </tr>
-            <tr>
-                <th>Titre</th>
-                <td>{{ livre.titre }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ livre.description }}</td>
-            </tr>
-            <tr>
-                <th>Annee publication</th>
-                <td>{{ livre.annee }}</td>
-            </tr>
-            <tr>
-                <th>Image_couverture</th>
-                <td><img src="/uploads/files/{{ livre.imageCouverture }}" alt="Image de couverture"></td>
-            </tr>
-            <tr>
-                <th>Stock_total</th>
-                <td>{{ livre.stockTotal }}</td>
-            </tr>
-            <tr>
-                <th>Stock_disponible</th>
-                <td>{{ livre.stockDisponible }}</td>
-            </tr>
-            <tr>
-                <th>Created</th>
-                <td>{{ livre.created ? livre.created|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+                        <dt class="col-sm-4">Titre</dt>
+                        <dd class="col-sm-8"><strong>{{ livre.titre }}</strong></dd>
 
-    <a href="{{ path('app_livre_index') }}">back to list</a>
+                        <dt class="col-sm-4">Auteur</dt>
+                        <dd class="col-sm-8">{{ livre.auteur ? livre.auteur.nom : 'Auteur inconnu' }}</dd>
 
-    <a href="{{ path('app_livre_edit', {'id': livre.id}) }}">edit</a>
+                        <dt class="col-sm-4">Catégorie</dt>
+                        <dd class="col-sm-8">{{ livre.categorie ? livre.categorie.libelle : 'Non catégorisé' }}</dd>
 
-    {{ include('bibliothecaire/livre/_delete_form.html.twig') }}
+                        <dt class="col-sm-4">Langue</dt>
+                        <dd class="col-sm-8">{{ livre.langue ? livre.langue.titre : 'Non spécifiée' }}</dd>
+
+                        <dt class="col-sm-4">Année de publication</dt>
+                        <dd class="col-sm-8">{{ livre.annee ?: 'Non spécifiée' }}</dd>
+
+                        <dt class="col-sm-4">Stock total</dt>
+                        <dd class="col-sm-8">{{ livre.stockTotal }}</dd>
+
+                        <dt class="col-sm-4">Stock disponible</dt>
+                        <dd class="col-sm-8">
+                            {% if livre.stockDisponible > 0 %}
+                                <span class="badge bg-success">{{ livre.stockDisponible }}</span>
+                            {% else %}
+                                <span class="badge bg-danger">Indisponible</span>
+                            {% endif %}
+                        </dd>
+
+                        <dt class="col-sm-4">Créé le</dt>
+                        <dd class="col-sm-8">{{ livre.created ? livre.created|date('d/m/Y à H:i') : 'Non spécifié' }}</dd>
+                    </dl>
+                </div>
+            </div>
+
+            {% if livre.description %}
+                <div>
+                    <h6 class="mb-2">Description</h6>
+                    <p class="mb-0">{{ livre.description }}</p>
+                </div>
+            {% endif %}
+        </div>
+        <div class="card-footer text-end">
+            <a href="{{ path('app_livre_index') }}" class="btn btn-secondary btn-sm">Retour à la liste</a>
+        </div>
+    </div>
 {% endblock %}

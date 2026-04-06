@@ -1,37 +1,48 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
-{% block title %}Categorie index{% endblock %}
+{% block admin_title %}Catégories{% endblock %}
 
-{% block body %}
-    <h1>Categorie index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Libelle</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for categorie in categories %}
-            <tr>
-                <td>{{ categorie.id }}</td>
-                <td>{{ categorie.libelle }}</td>
-                <td>{{ categorie.description }}</td>
-                <td>
-                    <a href="{{ path('app_categorie_show', {'id': categorie.id}) }}">show</a>
-                    <a href="{{ path('app_categorie_edit', {'id': categorie.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_categorie_new') }}">Create new</a>
+{% block admin_body %}
+    <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="h5 mb-0">Liste des catégories</h2>
+                <p class="text-muted small mb-0">Gérez les catégories de la bibliothèque.</p>
+            </div>
+            <a href="{{ path('app_categorie_new') }}" class="btn btn-primary btn-sm">
+                <i class="fas fa-plus me-1"></i> Ajouter une catégorie
+            </a>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Libellé</th>
+                            <th scope="col">Description</th>
+                            <th scope="col" class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for categorie in categories %}
+                        <tr>
+                            <td>{{ categorie.id }}</td>
+                            <td>{{ categorie.libelle }}</td>
+                            <td>{{ categorie.description|length > 120 ? categorie.description[:120] ~ '...' : categorie.description }}</td>
+                            <td class="text-end">
+                                <a href="{{ path('app_categorie_show', {'id': categorie.id}) }}" class="btn btn-sm btn-outline-secondary me-1">Voir</a>
+                                <a href="{{ path('app_categorie_edit', {'id': categorie.id}) }}" class="btn btn-sm btn-outline-primary">Modifier</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center py-4">Aucune catégorie trouvée.</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}

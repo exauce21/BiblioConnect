@@ -1,30 +1,33 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
-{% block title %}Categorie{% endblock %}
+{% block admin_title %}Catégorie{% endblock %}
 
-{% block body %}
-    <h1>Categorie</h1>
+{% block admin_body %}
+    <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="h5 mb-0">Détails de la catégorie</h2>
+                <p class="text-muted small mb-0">Voir les informations et gérer la catégorie.</p>
+            </div>
+            <div>
+                <a href="{{ path('app_categorie_edit', {'id': categorie.id}) }}" class="btn btn-sm btn-primary me-2">Modifier</a>
+                {{ include('bibliothecaire/categorie/_delete_form.html.twig') }}
+            </div>
+        </div>
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">ID</dt>
+                <dd class="col-sm-9">{{ categorie.id }}</dd>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ categorie.id }}</td>
-            </tr>
-            <tr>
-                <th>Libelle</th>
-                <td>{{ categorie.libelle }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ categorie.description }}</td>
-            </tr>
-        </tbody>
-    </table>
+                <dt class="col-sm-3">Libellé</dt>
+                <dd class="col-sm-9">{{ categorie.libelle }}</dd>
 
-    <a href="{{ path('app_categorie_index') }}">back to list</a>
-
-    <a href="{{ path('app_categorie_edit', {'id': categorie.id}) }}">edit</a>
-
-    {{ include('categorie/_delete_form.html.twig') }}
+                <dt class="col-sm-3">Description</dt>
+                <dd class="col-sm-9">{{ categorie.description|default('Aucune description fournie.') }}</dd>
+            </dl>
+        </div>
+        <div class="card-footer text-end">
+            <a href="{{ path('app_categorie_index') }}" class="btn btn-secondary btn-sm">Retour à la liste</a>
+        </div>
+    </div>
 {% endblock %}

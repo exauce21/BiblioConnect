@@ -1,42 +1,34 @@
-{% extends 'base.html.twig' %}
+{% extends 'utilisateur/base.html.twig' %}
 
-{% block title %}Reservation{% endblock %}
+{% block title %}Réservation{% endblock %}
 
-{% block body %}
-    <h1>Reservation</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ reservation.id }}</td>
-            </tr>
-            <tr>
-                <th>Date_debut</th>
-                <td>{{ reservation.dateDebut ? reservation.dateDebut|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Date_fin</th>
-                <td>{{ reservation.dateFin ? reservation.dateFin|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Date_retour_reel</th>
-                <td>{{ reservation.dateRetourReel ? reservation.dateRetourReel|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Statut</th>
-                <td>{{ reservation.statut ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Created</th>
-                <td>{{ reservation.created ? reservation.created|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_reservation_index') }}">back to list</a>
-
-    <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">edit</a>
-
-    {{ include('reservation/_delete_form.html.twig') }}
+{% block content %}
+    <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="h5 mb-0">Détail de la réservation</h2>
+            <div>
+                <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}" class="btn btn-sm btn-primary me-2">Modifier</a>
+                {{ include('reservation/_delete_form.html.twig') }}
+            </div>
+        </div>
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">ID</dt>
+                <dd class="col-sm-9">{{ reservation.id }}</dd>
+                <dt class="col-sm-3">Date début</dt>
+                <dd class="col-sm-9">{{ reservation.dateDebut ? reservation.dateDebut|date('Y-m-d') : '' }}</dd>
+                <dt class="col-sm-3">Date fin</dt>
+                <dd class="col-sm-9">{{ reservation.dateFin ? reservation.dateFin|date('Y-m-d') : '' }}</dd>
+                <dt class="col-sm-3">Date retour réel</dt>
+                <dd class="col-sm-9">{{ reservation.dateRetourReel ? reservation.dateRetourReel|date('Y-m-d') : '' }}</dd>
+                <dt class="col-sm-3">Statut</dt>
+                <dd class="col-sm-9">{{ reservation.statut ? 'Oui' : 'Non' }}</dd>
+                <dt class="col-sm-3">Créé le</dt>
+                <dd class="col-sm-9">{{ reservation.created ? reservation.created|date('Y-m-d H:i:s') : '' }}</dd>
+            </dl>
+        </div>
+        <div class="card-footer text-end">
+            <a href="{{ path('app_reservation_index') }}" class="btn btn-secondary btn-sm">Retour aux réservations</a>
+        </div>
+    </div>
 {% endblock %}

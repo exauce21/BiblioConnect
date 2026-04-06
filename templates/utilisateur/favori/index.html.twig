@@ -1,32 +1,41 @@
-{% extends 'base.html.twig' %}
+{% extends 'utilisateur/base.html.twig' %}
 
-{% block title %}Favori index{% endblock %}
+{% block title %}Favoris{% endblock %}
 
-{% block body %}
-    <h1>Favori index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for favori in favoris %}
-            <tr>
-                <td>{{ favori.id }}</td>
-                <td>
-                    <a href="{{ path('app_favori_show', {'id': favori.id}) }}">show</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="2">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_favori_new') }}">Create new</a>
+{% block content %}
+    <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="h5 mb-0">Mes favoris</h2>
+                <p class="text-muted small mb-0">Tous vos livres favoris enregistrés.</p>
+            </div>
+            <a href="{{ path('app_favori_new') }}" class="btn btn-primary btn-sm">Ajouter</a>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col" class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for favori in favoris %}
+                        <tr>
+                            <td>{{ favori.id }}</td>
+                            <td class="text-end">
+                                <a href="{{ path('app_favori_show', {'id': favori.id}) }}" class="btn btn-sm btn-outline-secondary">Voir</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="2" class="text-center py-4">Aucun favori trouvé.</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}
